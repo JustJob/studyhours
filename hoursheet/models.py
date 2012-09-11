@@ -16,13 +16,14 @@ class Person(models.Model):
     for(time in TimingEvent.objects.filter(person__exact=self, 
                                            signedIn__gte=startTime, 
                                            signedOut__lte=endTime)):
+      retval += time.total_seconds()
 
-    return 0
+    return retval
 
 class TimingEvent(models.Model):
   person = models.ForeignKey(Person)
-  signedIn = models.DateField(auto_now_add=True)
-  signedOut = models.DateField(null=True)
+  signedIn = models.DateTimeField(auto_now_add=True)
+  signedOut = models.DateTimeField(null=True)
 
   def timeDifference():
     if(signedOut)
