@@ -18,7 +18,7 @@ class Person(models.Model):
                                            signedOut__lte=endTime):
       retval += time.seconds()
 
-    return retval/360
+    return retval/3600
 
 class TimingEvent(models.Model):
   person = models.ForeignKey(Person)
