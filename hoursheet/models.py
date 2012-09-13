@@ -18,9 +18,10 @@ class Person(models.Model):
                                            signedOut__lte=endTime):
       retval += time.seconds()
 
-    return retval/3600
+    return float(int(retval/900)) / 4
 
 class TimingEvent(models.Model):
+  priorWeek = models.BooleanField(default=False)
   person = models.ForeignKey(Person)
   signedIn = models.DateTimeField(auto_now_add=True)
   signedOut = models.DateTimeField(null=True)
@@ -30,4 +31,12 @@ class TimingEvent(models.Model):
 
   def __unicode__(self):
     return self.person.__unicode__() + " TimingEvent"
+
+class Week:
+  start = models.DateTimeField();
+  end = models.DateTimeField();
+
+  def __unicode__(self):
+    return "week from " + start.month + "/" + start.day + "/" + start.year + " to "\
+      + end.month + "/" + end.day + "/" + end.year
 
