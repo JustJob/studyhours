@@ -1,0 +1,237 @@
+{% load helpers %}
+<html>
+  <head>
+    <title>Three Column CSS Layout</title>
+    <style type="text/css">
+      /*
+      Variable Grid System.
+      Learn more ~ http://www.spry-soft.com/grids/
+      Based on 960 Grid System - http://960.gs/
+
+      Licensed under GPL and MIT.
+    */
+
+    /*
+      Forces backgrounds to span full width,
+      even if there is horizontal scrolling.
+      Increase this if your layout is wider.
+
+      Note: IE6 works fine without this fix.
+    */
+
+    body {
+      min-width: 780px;
+    }
+
+    /* Containers
+    ----------------------------------------------------------------------------------------------------*/
+    .container_4 {
+      margin-left: auto;
+      margin-right: auto;
+      width: 780px;
+    }
+
+    /* Grid >> Global
+    ----------------------------------------------------------------------------------------------------*/
+
+
+    .grid_1,
+    .grid_2,
+    .grid_3,
+    .grid_4 {
+      display:inline;
+      float: left;
+      position: relative;
+      margin-left: 10px;
+      margin-right: 10px;
+      height: 50px;
+    }
+
+    .center {
+      position: absolute;
+      top: 50%;
+      height: 20px;
+      margin-top:-10px;
+      width: inherit;
+    }
+
+
+
+    .push_1, .pull_1,
+    .push_2, .pull_2,
+    .push_3, .pull_3,
+    .push_4, .pull_4 {
+      position:relative;
+    }
+
+
+    /* Grid >> Children (Alpha ~ First, Omega ~ Last)
+    ----------------------------------------------------------------------------------------------------*/
+
+    .alpha {
+      margin-left: 0;
+    }
+
+    .omega {
+      margin-right: 0;
+    }
+
+    /* Grid >> 4 Columns
+    ----------------------------------------------------------------------------------------------------*/
+
+
+    .container_4 .grid_1 {
+      width:175px;
+      text-align: center;
+    }
+
+    .container_4 .grid_2 {
+      width:370px;
+    }
+
+    .container_4 .grid_3 {
+      width:565px;
+    }
+
+    .container_4 .grid_4 {
+      width:760px;
+    }
+
+
+
+
+    /* Prefix Extra Space >> 4 Columns
+    ----------------------------------------------------------------------------------------------------*/
+
+
+    .container_4 .prefix_1 {
+      padding-left:195px;
+    }
+
+    .container_4 .prefix_2 {
+      padding-left:390px;
+    }
+
+    .container_4 .prefix_3 {
+      padding-left:585px;
+    }
+
+
+
+    /* Suffix Extra Space >> 4 Columns
+    ----------------------------------------------------------------------------------------------------*/
+
+
+    .container_4 .suffix_1 {
+      padding-right:195px;
+    }
+
+    .container_4 .suffix_2 {
+      padding-right:390px;
+    }
+
+    .container_4 .suffix_3 {
+      padding-right:585px;
+    }
+
+
+
+    /* Push Space >> 4 Columns
+    ----------------------------------------------------------------------------------------------------*/
+
+
+    .container_4 .push_1 {
+      left:195px;
+    }
+
+    .container_4 .push_2 {
+      left:390px;
+    }
+
+    .container_4 .push_3 {
+      left:585px;
+    }
+
+
+
+    /* Pull Space >> 4 Columns
+    ----------------------------------------------------------------------------------------------------*/
+
+
+    .container_4 .pull_1 {
+      left:-195px;
+    }
+
+    .container_4 .pull_2 {
+      left:-390px;
+    }
+
+    .container_4 .pull_3 {
+      left:-585px;
+    }
+
+
+
+
+    /* `Clear Floated Elements
+    ----------------------------------------------------------------------------------------------------*/
+
+    /* http://sonspring.com/journal/clearing-floats */
+
+    .clear {
+      clear: both;
+      display: block;
+      overflow: hidden;
+      visibility: hidden;
+      width: 0;
+      height: 0;
+    }
+
+    /* http://www.yuiblog.com/blog/2010/09/27/clearfix-reloaded-overflowhidden-demystified */
+
+    .clearfix:before,
+    .clearfix:after {
+      content: '\0020';
+      display: block;
+      overflow: hidden;
+      visibility: hidden;
+      width: 0;
+      height: 0;
+    }
+
+    .clearfix:after {
+      clear: both;
+    }
+
+    /*
+      The following zoom:1 rule is specifically for IE6 + IE7.
+      Move to separate stylesheet if invalid CSS is a problem.
+    */
+
+    .clearfix {
+      zoom: 1;
+    }
+
+    .namebox:hover {
+      background-color: #C8C9C6;
+    }
+    </style>
+  </head>
+  <body>
+    {% if people|length > 0 %}
+      <div class="container_4">
+        <div>
+        {% for person in people %}
+          {% if forloop.counter0|divisibleby:4 %}
+            </div>
+            <div>
+          {% endif %}
+          <span class="grid_1 namebox"><div class = "center">{{ person.firstName }} {{ person.lastName }}</div></span>
+        {% endfor %}
+        </div>
+      </div>
+    {% else %}
+      <p>No people are in system.</p>
+    {% endif %}
+  </body>
+</html>
