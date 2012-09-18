@@ -29,14 +29,17 @@ class TimingEvent(models.Model):
   def seconds(self):
     return (self.signedOut - self.signedIn).total_seconds()
 
+  def hours(self):
+    return float(int(self.seconds() / 900))/4
+
   def __unicode__(self):
     return self.person.__unicode__() + " TimingEvent"
 
-class Week:
+class Week(models.Model):
   start = models.DateTimeField();
   end = models.DateTimeField();
 
   def __unicode__(self):
-    return "week from " + start.month + "/" + start.day + "/" + start.year + " to "\
-      + end.month + "/" + end.day + "/" + end.year
+    return "week from " + str(self.start.month) + "/" + str(self.start.day) + "/" + str(self.start.year) + " to "\
+      + str(self.end.month) + "/" + str(self.end.day) + "/" + str(self.end.year)
 

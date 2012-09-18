@@ -27,8 +27,9 @@
     ----------------------------------------------------------------------------------------------------*/
     .container_4 {
       margin-left: auto;
-      margin-right: auto;
+      margin-right: 340px;
       width: 780px;
+      height:2px;
     }
 
     /* Grid >> Global
@@ -213,22 +214,105 @@
     }
 
     .namebox:hover {
-      background-color: #C8C9C6;
+      background-color: #E6E6E6;
+    }
+
+    #actions {
+      position: fixed;
+      width:250px;
+      right:0px;
+      background-color: #E6E6E6;
+      margin-left: 20px;
+      top: 0px;
+      height: 100%;
+    }
+
+    #signin {
+      margin-right: 18px;
+      margin-left: 35px;
+      margin-top: 10px;
+      width: 70px;
+    }
+
+    #signout {
+      margin-left: 18px;
+      margin-right: 35px;
+      margin-top: 10px;
+      width: 70px;
+    }
+
+    .parent {
+      position: fixed;
+      right: 0px;
+      width: 100%;
+      height: 100%;
+      top:0px;
+    }
+
+    #personName {
+      text-align: center;
+      height: 30px;
+      width: 100%;
+    }
+
+    span.namebox.clicked {
+      background-color: #A6A6A6;
     }
     </style>
+
+    <script>
+    function loadName(element, first, last) {
+      var clickedEl = document.getElementsByClassName("clicked");
+      for(var i = 0; i < clickedEl.length; i++) {
+        clickedEl[i].classList.remove("clicked");
+      }
+
+      element.classList.add("clicked");
+      var req = new XMLHttpRequest();
+      req.open("GET", "/getPersonInfo?firstName=" + first + "&lastName=" + last, true);
+      req.send();
+
+      req.onreadystatechange = function() {
+        if(req.readyState == 4 && req.status == 200) {
+          person = JSON.parse(req.responseText);
+          if(person.result == "success") {
+            document.getElementById('personName').innerHTML = person.firstName + ' ' + person.lastName;
+            if (person.isSignedIn) {
+              document.getElementById("signin").setAttribute("disabled", "disabled");
+              document.getElementById("signout").removeAttribute("disabled");
+            }
+            else {
+              document.getElementById("signin").removeAttribute("disabled");
+              document.getElementById("signout").setAttribute("disabled", "disabled");
+            }
+          }
+        }
+      }
+    }
+    </script>
   </head>
   <body>
     {% if people|length > 0 %}
-      <div class="container_4">
-        <div>
-        {% for person in people %}
-          {% if forloop.counter0|divisibleby:4 %}
-            </div>
-            <div>
-          {% endif %}
-          <span class="grid_1 namebox"><div class = "center">{{ person.firstName }} {{ person.lastName }}</div></span>
-        {% endfor %}
+      <div class="parent">
+        <div class="container_4">
+          <div>
+          {% for person in people %}
+            {% if forloop.counter0|divisibleby:4 %}
+              </div>
+              <div>
+            {% endif %}
+            <span class="grid_1 namebox" onclick="loadName(this, '{{ person.firstName }}', &quot;{{ person.lastName }}&quot;)">
+              <div class = "center">{{ person.firstName }} {{ person.lastName }}</div>
+            </span>
+          {% endfor %}
+          </div>
         </div>
+      </div>
+      <div id="actions">
+        <p id="personName"></p>
+        <button id="signin" type="button">Sign In</button>
+        <button id="signout" type="button">Sign Out</button>
+        <p id="currentHours"></p>
       </div>
     {% else %}
       <p>No people are in system.</p>
