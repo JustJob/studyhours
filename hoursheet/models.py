@@ -1,4 +1,5 @@
 from django.db import models
+import datetime
 
 # Create your models here.
 class Person(models.Model):
@@ -6,7 +7,12 @@ class Person(models.Model):
   lastName = models.CharField(max_length=30)
   weeklyHours = models.IntegerField(default=12)
   currentFine = models.FloatField(default = 2.0)
-  signedIn = models.BooleanField(default=False)
+
+  def isSignedIn(self):
+    if(len(TimingEvent.objects.filter(person__exact=self, 
+                                      signedOut__isnull=True))):
+      return True
+    else: return False
 
   def __unicode__(self):
     return self.firstName + " " + self.lastName
@@ -23,8 +29,8 @@ class Person(models.Model):
 class TimingEvent(models.Model):
   priorWeek = models.BooleanField(default=False)
   person = models.ForeignKey(Person)
-  signedIn = models.DateTimeField(auto_now_add=True)
-  signedOut = models.DateTimeField(null=True)
+  signedIn = models.DateTimeField(null=False)
+  signedOut = models.DateTimeField(blank=True)
 
   def seconds(self):
     return (self.signedOut - self.signedIn).total_seconds()
@@ -34,6 +40,12 @@ class TimingEvent(models.Model):
 
   def __unicode__(self):
     return self.person.__unicode__() + " TimingEvent"
+
+  def save(self, *args, **kwargs):
+    if not self.signedIn:
+      self.signedIn = datetime.datetime.now()
+
+    return super(TimingEvent, self).save()
 
 class Week(models.Model):
   start = models.DateTimeField();
