@@ -1,5 +1,6 @@
 from django.db import models
 import datetime
+import pytz
 
 # Create your models here.
 class Person(models.Model):
@@ -17,12 +18,19 @@ class Person(models.Model):
   def __unicode__(self):
     return self.firstName + " " + self.lastName
 
-  def getCurrentHours(self, startTime, endTime):
+  def getCurrentHours(self, week):
     retval = 0.0;
     for time in TimingEvent.objects.filter(person__exact=self, 
-                                           signedIn__gte=startTime, 
-                                           signedOut__lte=endTime):
-      retval += time.seconds()
+                                           signedIn__gte=week.start, 
+                                           signedOut__lte=week.end):
+      if time.signedIn.day == week.start.day:
+        if not time.priorWeek:
+          retval += time.seconds()
+      elif time.signedOut.day == week.end.day:
+        if time.priorWeek:
+          retval += time.seconds()
+      else:
+        retval += time.seconds()
 
     return float(int(retval/900)) / 4
 
@@ -54,4 +62,21 @@ class Week(models.Model):
   def __unicode__(self):
     return "week from " + str(self.start.month) + "/" + str(self.start.day) + "/" + str(self.start.year) + " to "\
       + str(self.end.month) + "/" + str(self.end.day) + "/" + str(self.end.year)
+
+  @staticmethod
+  def getCurrentWeek(prior = False, now = None):
+    if now is None:
+      now = datetime.datetime.now(pytz.timezone('UTC'))
+    current = Week.objects.filter(start__lte = now,
+                                  end__gte = now).order_by('start')
+    if len(current) == 1:
+      return current[0]
+    elif len(current) == 2:
+      if prior:
+        return current[0]
+      else:
+        return current[1]
+    else:
+      print "ERROR: there are more than two weeks that include " + now
+      return None
 
