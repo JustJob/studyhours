@@ -1,0 +1,44 @@
+[Sun Sep 30 06:01:10 2012] [error] [client 131.151.142.48] (13)Permission denied: access to /admin denied
+[Sun Sep 30 06:01:11 2012] [error] [client 131.151.142.48] (13)Permission denied: access to /favicon.ico denied
+[Sun Sep 30 06:01:13 2012] [error] [client 131.151.142.48] (13)Permission denied: access to / denied
+[Sun Sep 30 06:01:14 2012] [error] [client 131.151.142.48] (13)Permission denied: access to /favicon.ico denied
+[Sun Sep 30 06:08:04 2012] [error] [client 131.151.142.48] (13)Permission denied: access to / denied
+[Sun Sep 30 06:08:04 2012] [error] [client 131.151.142.48] (13)Permission denied: access to /favicon.ico denied
+[Sun Sep 30 06:08:08 2012] [error] [client 131.151.142.48] (13)Permission denied: access to /phpadmin denied
+[Sun Sep 30 06:08:08 2012] [error] [client 131.151.142.48] (13)Permission denied: access to /favicon.ico denied
+[Sun Sep 30 06:12:26 2012] [error] [client 131.151.142.48] (13)Permission denied: access to / denied
+[Sun Sep 30 06:12:26 2012] [error] [client 131.151.142.48] (13)Permission denied: access to /favicon.ico denied
+[Sun Sep 30 17:13:13 2012] [error] [client 131.151.142.48] mod_wsgi (pid=24398): Exception occurred processing WSGI script '/usr/local/www/studyhours/studyhours/django.wsgi'.
+[Sun Sep 30 17:13:13 2012] [error] [client 131.151.142.48] Traceback (most recent call last):
+[Sun Sep 30 17:13:13 2012] [error] [client 131.151.142.48]   File "/usr/local/www/studyhours/studyhours/django.wsgi", line 11, in application
+[Sun Sep 30 17:13:13 2012] [error] [client 131.151.142.48]     return _application(environ, start_response)
+[Sun Sep 30 17:13:13 2012] [error] [client 131.151.142.48]   File "/usr/lib/python2.6/site-packages/django/core/handlers/wsgi.py", line 219, in __call__
+[Sun Sep 30 17:13:13 2012] [error] [client 131.151.142.48]     self.load_middleware()
+[Sun Sep 30 17:13:13 2012] [error] [client 131.151.142.48]   File "/usr/lib/python2.6/site-packages/django/core/handlers/base.py", line 39, in load_middleware
+[Sun Sep 30 17:13:13 2012] [error] [client 131.151.142.48]     for middleware_path in settings.MIDDLEWARE_CLASSES:
+[Sun Sep 30 17:13:13 2012] [error] [client 131.151.142.48]   File "/usr/lib/python2.6/site-packages/django/utils/functional.py", line 184, in inner
+[Sun Sep 30 17:13:13 2012] [error] [client 131.151.142.48]     self._setup()
+[Sun Sep 30 17:13:13 2012] [error] [client 131.151.142.48]   File "/usr/lib/python2.6/site-packages/django/conf/__init__.py", line 40, in _setup
+[Sun Sep 30 17:13:13 2012] [error] [client 131.151.142.48]     raise ImportError("Settings cannot be imported, because environment variable %s is undefined." % ENVIRONMENT_VARIABLE)
+[Sun Sep 30 17:13:13 2012] [error] [client 131.151.142.48] ImportError: Settings cannot be imported, because environment variable DJANGO_SETTINGS_MODULE is undefined.
+[Sun Sep 30 17:13:14 2012] [error] [client 131.151.142.48] mod_wsgi (pid=24400): Exception occurred processing WSGI script '/usr/local/www/studyhours/studyhours/django.wsgi'.
+[Sun Sep 30 17:13:14 2012] [error] [client 131.151.142.48] Traceback (most recent call last):
+[Sun Sep 30 17:13:14 2012] [error] [client 131.151.142.48]   File "/usr/local/www/studyhours/studyhours/django.wsgi", line 11, in application
+[Sun Sep 30 17:13:14 2012] [error] [client 131.151.142.48]     return _application(environ, start_response)
+[Sun Sep 30 17:13:14 2012] [error] [client 131.151.142.48]   File "/usr/lib/python2.6/site-packages/django/core/handlers/wsgi.py", line 219, in __call__
+[Sun Sep 30 17:13:14 2012] [error] [client 131.151.142.48]     self.load_middleware()
+[Sun Sep 30 17:13:14 2012] [error] [client 131.151.142.48]   File "/usr/lib/python2.6/site-packages/django/core/handlers/base.py", line 39, in load_middleware
+[Sun Sep 30 17:13:14 2012] [error] [client 131.151.142.48]     for middleware_path in settings.MIDDLEWARE_CLASSES:
+[Sun Sep 30 17:13:14 2012] [error] [client 131.151.142.48]   File "/usr/lib/python2.6/site-packages/django/utils/functional.py", line 184, in inner
+[Sun Sep 30 17:13:14 2012] [error] [client 131.151.142.48]     self._setup()
+[Sun Sep 30 17:13:14 2012] [error] [client 131.151.142.48]   File "/usr/lib/python2.6/site-packages/django/conf/__init__.py", line 40, in _setup
+[Sun Sep 30 17:13:14 2012] [error] [client 131.151.142.48]     raise ImportError("Settings cannot be imported, because environment variable %s is undefined." % ENVIRONMENT_VARIABLE)
+[Sun Sep 30 17:13:14 2012] [error] [client 131.151.142.48] ImportError: Settings cannot be imported, because environment variable DJANGO_SETTINGS_MODULE is undefined.
+[Sun Oct 07 20:55:55 2012] [error] [client 85.116.64.22] client sent HTTP/1.1 request without hostname (see RFC2616 section 14.23): /w00tw00t.at.ISC.SANS.DFind:)
+[Mon Oct 08 13:32:55 2012] [error] [client 85.116.64.22] client sent HTTP/1.1 request without hostname (see RFC2616 section 14.23): /w00tw00t.at.ISC.SANS.DFind:)
+[Sat Oct 13 12:58:54 2012] [error] [client 174.133.189.241] client sent HTTP/1.1 request without hostname (see RFC2616 section 14.23): /w00tw00t.at.ISC.SANS.DFind:)
+[Sun Oct 14 11:19:55 2012] [error] [client 174.132.220.230] client sent HTTP/1.1 request without hostname (see RFC2616 section 14.23): /w00tw00t.at.ISC.SANS.DFind:)
+[Wed Oct 17 23:49:51 2012] [error] [client 46.4.132.158] client sent HTTP/1.1 request without hostname (see RFC2616 section 14.23): /w00tw00t.at.ISC.SANS.DFind:)
+[Thu Oct 18 05:45:47 2012] [error] [client 174.132.220.176] client sent HTTP/1.1 request without hostname (see RFC2616 section 14.23): /w00tw00t.at.ISC.SANS.DFind:)
+[Fri Oct 19 06:17:40 2012] [error] [client 95.90.212.127] client sent HTTP/1.1 request without hostname (see RFC2616 section 14.23): /w00tw00t.at.ISC.SANS.DFind:)
+[Fri Oct 19 17:47:19 2012] [error] [client 109.167.128.17] client sent HTTP/1.1 request without hostname (see RFC2616 section 14.23): /w00tw00t.at.ISC.SANS.DFind:)
