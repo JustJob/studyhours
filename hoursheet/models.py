@@ -66,9 +66,10 @@ class Week(models.Model):
   @staticmethod
   def getCurrentWeek(prior = False, now = None):
     if now is None:
-      now = datetime.datetime.now(pytz.timezone('UTC'))
+      now = datetime.datetime.now(pytz.timezone('US/Central'))
     current = Week.objects.filter(start__lte = now,
                                   end__gte = now).order_by('start')
+    print now
     if len(current) == 1:
       return current[0]
     elif len(current) == 2:
@@ -77,6 +78,6 @@ class Week(models.Model):
       else:
         return current[1]
     else:
-      print "ERROR: there are more than two weeks that include " + now
+      print "ERROR: there are more than two weeks that include " + str(now)
       return None
 

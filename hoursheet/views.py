@@ -78,18 +78,18 @@ def timeFromMidnight(time):
   midnight = datetime.datetime(time.year, 
                                time.month,
                                time.day,
-                               23,59,59)
+                               23,59,59, tzinfo=pytz.timezone('US/Central'))
 
-  return float(int((midnight - time)/900)) / 4
+  print "midnight for ", time, " is ", midnight
+  return abs(float(int((midnight - time).total_seconds()/900)) / 4)
 
 def midnight(time):
+  print 'CALLING MIDNIGHT!'
+  tz = pytz.timezone('US/Central')
   midnight = datetime.datetime(time.year, 
                                time.month,
                                time.day,
-                               23,59,59)
-  midnight.hour = 23
-  midnight.minute = 59
-  midnight.second = 59
+                               23,59,59, tzinfo=tz)
 
   return midnight
 
@@ -103,7 +103,6 @@ def signOut(request):
 
     event = TimingEvent.objects.filter(person__exact=thisPerson[0], 
                                         signedOut__isnull=True)
-    print event
 
     if(len(thisPerson) == 1 and len(event) == 1):
       thisPerson = thisPerson[0]
@@ -115,21 +114,27 @@ def signOut(request):
       outThisWeek = Week.getCurrentWeek(False, now)
       outPriorWeek = Week.getCurrentWeek(True, now)
 
+      print inThisWeek
+
       if inThisWeek.pk == inPriorWeek.pk: #if signed in on a weekday
+        print "signed in on a weekday"
         if outThisWeek.pk == outPriorWeek.pk:
           event.signedOut = now
         else: #if signed in on weekday and signed out on sunday
+          print "signedOut on sunday"
           hoursWithThis = thisPerson.getCurrentHours(outPriorWeek) + timeFromMidnight(event.signedIn)
           if hoursWithThis >= thisPerson.weeklyHours:
-            event.signedOut = outPriorWeek.end
+            event.signedOut = outThisWeek.start + datetime.timedelta(seconds=-1)
             newEvent = TimingEvent(person=thisPerson, signedIn=outThisWeek.start, signedOut=now)
             newEvent.save()
           else: #if they need this current sunday session to be counted for the prior week
             event.priorWeek = True
             event.signedOut = now
       else:
+        print "signed in on sunday"
         hours = thisPerson.getCurrentHours(outPriorWeek)
         if outThisWeek.pk == outPriorWeek.pk:
+          print 'signed out on weekday'
           if hours >= thisPerson.weeklyHours:
             event.signedOut = now
           else:
@@ -137,7 +142,7 @@ def signOut(request):
             event.priorWeek = True
             if hours + timeFromMidnight(now) < thisPerson.weeklyHours:
               event.signedOut = inPriorWeek.end
-
+              
               newEvent = TimingEvent(person=thisPerson, 
                                      signedIn=midnight(outPriorWeek.start), 
                                      signedOut=now)
@@ -149,6 +154,7 @@ def signOut(request):
                                      signedOut=now)
             newEvent.save()
         else:
+          print "signedOut on sunday"
           if hours >= thisPerson.weeklyHours:
             event.signedOut = now
           else:
