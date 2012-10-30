@@ -1,8 +1,12 @@
 #generates weeks for study hours
 
 import datetime
-from hoursheet.models import Person, Week, TimingEvent
 import pytz
+import os
+
+os.environ['DJANGO_SETTINGS_MODULE'] = 'studyhours.settings'
+
+from hoursheet.models import Person, Week, TimingEvent
 
 today = datetime.date.today()
 dayoffset = today.weekday()
