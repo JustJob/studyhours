@@ -38,7 +38,7 @@ class TimingEvent(models.Model):
   priorWeek = models.BooleanField(default=False)
   person = models.ForeignKey(Person)
   signedIn = models.DateTimeField(null=False)
-  signedOut = models.DateTimeField(blank=True)
+  signedOut = models.DateTimeField(null=True)
 
   def seconds(self):
     return (self.signedOut - self.signedIn).total_seconds()
