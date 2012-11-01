@@ -8,7 +8,8 @@ sys.path.append('/usr/local/www/studyhours')
 sys.path.append('/usr/local/www/studyhours/studyhours')
 
 def application(environ, start_response):
-    os.environ['DJANGO_SETTINGS_MODULE'] = 'studyhours.settings'
+    environ['DJANGO_SETTINGS_MODULE'] = 'studyhours.settings'
+    print 'environ is ', environ
     try:
         status = '200 OK'
         output = 'Hello World!1'
