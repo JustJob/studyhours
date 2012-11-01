@@ -6,7 +6,7 @@ _application = django.core.handlers.wsgi.WSGIHandler()
 
 sys.path.append('/usr/local/www/studyhours')
 sys.path.append('/usr/local/www/studyhours/studyhours')
-sys.stdout = open("django_errors.txt",'w')
+sys.stdout = open("/logs/django_errors.txt",'w')
 
 os.environ['DJANGO_SETTINGS_MODULE'] = 'studyhours.settings'
 
