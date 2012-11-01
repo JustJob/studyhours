@@ -84,7 +84,8 @@ def timeFromMidnight(time):
                                23,59,59, tzinfo=pytz.timezone('US/Central'))
 
   print "midnight for ", time, " is ", midnight
-  return abs(float(int((midnight - time).total_seconds()/900)) / 4)
+  td = midnight - time
+  return abs(float(int((td.seconds + td.days*24*3600)/900)) / 4)
 
 def midnight(time):
   print 'CALLING MIDNIGHT!'

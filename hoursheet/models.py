@@ -41,7 +41,8 @@ class TimingEvent(models.Model):
   signedOut = models.DateTimeField(null=True)
 
   def seconds(self):
-    return (self.signedOut - self.signedIn).total_seconds()
+    td = self.signedOut - self.signedIn
+    return td.seconds + td.days * 24*3600
 
   def hours(self):
     return float(int(self.seconds() / 900))/4
