@@ -18,7 +18,8 @@ def getHours(value):
     return 0
 
   event = event[0]
-  return ((int)((end - event.signedIn).total_seconds()/3600*10000))/10000.0
+  td = end-event.signedIn
+  return ((int)((td.days/24.0 + td.seconds/3600.0)*10000))/10000.0
   
 
 
