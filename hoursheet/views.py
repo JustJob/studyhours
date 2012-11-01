@@ -17,44 +17,47 @@ def index(request):
 
 
 def searchPerson(request):
-  if not request.user.is_authenticated():
-    raise Http404
+  try:
+    if not request.user.is_authenticated():
+      raise Http404
 
-  responseData = {'result':'failed'}
-  firstName = ''
-  lastName = ''
-  if(request.method == 'GET'):
-    firstName = request.GET['firstName']
-    lastName = request.GET['lastName']
-  elif(request.method == 'POST'):
-    firstName = request.POST['firstName']
-    lastName = request.POST['lastName']
+    responseData = {'result':'failed'}
+    firstName = ''
+    lastName = ''
+    if(request.method == 'GET'):
+      firstName = request.GET['firstName']
+      lastName = request.GET['lastName']
+    elif(request.method == 'POST'):
+      firstName = request.POST['firstName']
+      lastName = request.POST['lastName']
 
-  thisPerson = Person.objects.filter(firstName__exact=firstName,
-                                     lastName__exact=lastName)
-  if(len(thisPerson) > 0):
-    week = Week.getCurrentWeek()
-    lastLogins = []
-    logins = TimingEvent.objects.filter(person__exact=thisPerson, 
-                                            signedIn__gte=week.start, 
-                                            signedOut__lte=week.end)
-    if(len(logins) > 5):
-      logins = logins[0:5]
+    thisPerson = Person.objects.filter(firstName__exact=firstName,
+                                       lastName__exact=lastName)
+    if(len(thisPerson) > 0):
+      week = Week.getCurrentWeek()
+      lastLogins = []
+      logins = TimingEvent.objects.filter(person__exact=thisPerson, 
+                                              signedIn__gte=week.start, 
+                                              signedOut__lte=week.end)
+      if(len(logins) > 5):
+        logins = logins[0:5]
 
-    for login in logins:
-      lastLogins.append({"start":login.signedIn.strftime('%m/%d/%y %H:%M:%S %Z'), 
-                         "end": login.signedOut.strftime('%m/%d/%y %H:%M:%S %Z'), 
-                         "hours": login.hours()})
-    print lastLogins
+      for login in logins:
+        lastLogins.append({"start":login.signedIn.strftime('%m/%d/%y %H:%M:%S %Z'), 
+                           "end": login.signedOut.strftime('%m/%d/%y %H:%M:%S %Z'), 
+                           "hours": login.hours()})
+      print lastLogins
 
-    responseData['firstName'] = firstName
-    responseData['lastName'] = lastName
-    responseData['hours'] = thisPerson[0].getCurrentHours(week)
-    responseData['isSignedIn'] = thisPerson[0].isSignedIn()
-    responseData['lastLogins'] = lastLogins
-    responseData['result'] = "success"
+      responseData['firstName'] = firstName
+      responseData['lastName'] = lastName
+      responseData['hours'] = thisPerson[0].getCurrentHours(week)
+      responseData['isSignedIn'] = thisPerson[0].isSignedIn()
+      responseData['lastLogins'] = lastLogins
+      responseData['result'] = "success"
 
-  return HttpResponse(json.dumps(responseData), mimetype="application/json")
+    return HttpResponse(json.dumps(responseData), mimetype="application/json")
+  except Exception as inst:
+    return HttpResponse("exception: " + inst.__str__())
 
 def signIn(request):
   if not request.user.is_authenticated():
