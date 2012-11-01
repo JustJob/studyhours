@@ -7,9 +7,9 @@ _application = django.core.handlers.wsgi.WSGIHandler()
 sys.path.append('/usr/local/www/studyhours')
 sys.path.append('/usr/local/www/studyhours/studyhours')
 
+os.environ['DJANGO_SETTINGS_MODULE'] = 'studyhours.settings'
+
 def application(environ, start_response):
-    environ['DJANGO_SETTINGS_MODULE'] = 'studyhours.settings'
-    print 'environ is ', environ
     try:
         status = '200 OK'
         output = 'Hello World!1'
