@@ -1,0 +1,20 @@
+{% load helpers %}
+<html>
+  <head>
+    <title>Who is signed in</title>
+  </head>
+  <body>
+    {% if people|length > 0 %}
+      <table border="1">
+        {% for person in people %}
+          <tr>
+            <td>{{ person.firstName }} {{ person.lastName }}</td>
+            <td>{{ person|getHours }}</td>
+          </td>
+        {% endfor %}
+      </table>
+    {% else %}
+      <p>No people are signed in.</p>
+    {% endif %}
+  </body>
+</html>

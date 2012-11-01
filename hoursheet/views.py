@@ -93,6 +93,14 @@ def midnight(time):
 
   return midnight
 
+def viewSignedIn(request):
+  if not request.user.is_authenticated():
+    raise Http404
+
+  persons = [person for person in Person.objects.all() if person.isSignedIn()]
+  print 'persons is ', persons
+  return render_to_response('hoursheet/signedIn.html', {'people': persons})
+
 def signOut(request):
   if not request.user.is_authenticated():
     raise Http404

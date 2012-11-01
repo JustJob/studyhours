@@ -17,5 +17,6 @@ urlpatterns = patterns('',
     url(r'^getPersonInfo/', 'hoursheet.views.searchPerson'),
     url(r'^signIn/', 'hoursheet.views.signIn'),
     url(r'^signOut/', 'hoursheet.views.signOut'),
-    url(r'^index/', 'hoursheet.views.index')
+    url(r'^index/', 'hoursheet.views.index'),
+    url(r'^signedin/', 'hoursheet.views.viewSignedIn')
 )
