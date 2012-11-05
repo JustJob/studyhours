@@ -20,13 +20,15 @@ class Person(models.Model):
 
   def getCurrentHours(self, week):
     retval = 0.0;
+    start = week.start + week.start.replace(tzinfo=pytz.timezone("US/Central")).utcoffset()
+    end = week.end + week.end.replace(tzinfo=pytz.timezone("US/Central")).utcoffset()
     for time in TimingEvent.objects.filter(person__exact=self, 
-                                           signedIn__gte=week.start, 
-                                           signedOut__lte=week.end):
-      if time.signedIn.day == week.start.day:
+                                           signedIn__gte=start, 
+                                           signedOut__lte=end):
+      if time.signedIn.day == start.day:
         if not time.priorWeek:
           retval += time.seconds()
-      elif time.signedOut.day == week.end.day:
+      elif time.signedOut.day == end.day:
         if time.priorWeek:
           retval += time.seconds()
       else:
