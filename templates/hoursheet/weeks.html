@@ -1,0 +1,17 @@
+{% load helpers %}
+<html>
+  <head>
+    <title>Weeks</title>
+  </head>
+  <body>
+    {% if weeks|length > 0 %}
+      <ul>
+        {% for week in weeks %}
+          <li><a href="/weeks/{{ week.id }}/">{{ week }}</a></li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>There are no weeks.</p>
+    {% endif %}
+  </body>
+</html>

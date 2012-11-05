@@ -1,0 +1,21 @@
+{% load helpers %}
+<html>
+  <head>
+    <title>Week Info</title>
+  </head>
+  <body>
+    {% if weeks|length > 0 %}
+      <table border="1">
+        {% for data in userData %}
+          <tr>
+            {% for piece in data %}
+              <td>{{ piece }}</td>
+            {% endfor %}
+          </tr>
+        {% endfor %}
+      </table>
+    {% else %}
+      <p>Everyone made hours.</p>
+    {% endif %}
+  </body>
+</html>

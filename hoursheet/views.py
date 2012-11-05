@@ -105,6 +105,19 @@ def viewSignedIn(request):
   print 'persons is ', persons
   return render_to_response('hoursheet/signedIn.html', {'people': persons})
 
+def weeks(request):
+  if not request.user.is_authenticated():
+    raise Http404
+
+  return render_to_response('hoursheet/weeks.html', {'weeks':Week.objects.all()})
+
+def getWeekInfo(request, week_id):
+  if not request.user.is_authenticated():
+    raise Http404
+
+  userData = [(user.firstName + ' ' + user.lastName, user.getCurrentHours(Week.objects.get(pk=week_id)),user.weeklyHours - user.getCurrentHours(Week.objects.get(pk=week_id))) for user in Person.objects.all() if user.weeklyHours > user.getCurrentHours(Week.objects.get(pk=week_id))]
+  return render_to_response('hoursheet/weekInfo.html', {'userData':userData})
+
 def signOut(request):
   if not request.user.is_authenticated():
     raise Http404
@@ -120,11 +133,13 @@ def signOut(request):
       thisPerson = thisPerson[0]
       event = event[0]
 
-      now = datetime.datetime.now(pytz.timezone('UTC'))
+      now = datetime.datetime.now(pytz.timezone('US/Central'))
       inThisWeek = Week.getCurrentWeek(False, event.signedIn)
       inPriorWeek = Week.getCurrentWeek(True, event.signedIn)
       outThisWeek = Week.getCurrentWeek(False, now)
       outPriorWeek = Week.getCurrentWeek(True, now)
+
+      print "WEEK ID IS ", inThisWeek.pk
 
       print inThisWeek
 
@@ -171,7 +186,8 @@ def signOut(request):
             event.signedOut = now
           else:
             event.priorWeek = True
-            if hours + timeFromMidnight(now) < thisPerson.weeklyHours:
+            hoursWithThis = hours + (now - event.signedIn).seconds/3600 + (now - event.signedIn).days * 24
+            if hoursWithThis < thisPerson.weeklyHours:
               event.signedOut = now
             else:
               timeNeeded = datetime.timedelta(hours=(thisPerson.weeklyHours - hours))
@@ -184,3 +200,5 @@ def signOut(request):
       event.save()
 
   return searchPerson(request)
+
+

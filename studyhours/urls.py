@@ -18,5 +18,7 @@ urlpatterns = patterns('',
     url(r'^signIn/', 'hoursheet.views.signIn'),
     url(r'^signOut/', 'hoursheet.views.signOut'),
     url(r'^index/', 'hoursheet.views.index'),
-    url(r'^signedin/', 'hoursheet.views.viewSignedIn')
+    url(r'^signedin/', 'hoursheet.views.viewSignedIn'),
+    url(r'^weeks/(?P<week_id>\d+)/$', 'hoursheet.views.getWeekInfo'),
+    url(r'^weeks/', 'hoursheet.views.weeks')
 )
